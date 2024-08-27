@@ -1,0 +1,14 @@
+diff --git a/ggml/src/CMakeLists.txt b/ggml/src/CMakeLists.txt
+index ff84b9bb..f9f5f5bc 100644
+--- a/ggml/src/CMakeLists.txt
++++ b/ggml/src/CMakeLists.txt
+@@ -1194,6 +1194,9 @@ elseif (${CMAKE_SYSTEM_PROCESSOR} MATCHES "ppc64")
+         list(APPEND ARCH_FLAGS -mcpu=native -mtune=native)
+         #TODO: Add  targets for Power8/Power9 (Altivec/VSX) and Power10(MMA) and query for big endian systems (ppc64/le/be)
+     endif()
++elseif (${CMAKE_SYSTEM_PROCESSOR} MATCHES "riscv64")
++    message(STATUS "riscv64 detected")
++    list(APPEND ARCH_FLAGS -march=rv64gcv_zba_zbb_zbc_zbs -mabi=lp64d)
+ elseif (${CMAKE_SYSTEM_PROCESSOR} MATCHES "loongarch64")
+     message(STATUS "loongarch64 detected")
+ 
