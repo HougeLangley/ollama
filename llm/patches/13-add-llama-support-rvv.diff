@@ -1,0 +1,28 @@
+diff --git a/Makefile b/Makefile
+index 332496cf..ffd2a9f1 100644
+--- a/Makefile
++++ b/Makefile
+@@ -432,7 +432,10 @@ endif
+ # TODO: probably these flags need to be tweaked on some architectures
+ #       feel free to update the Makefile for your architecture and send a pull request or issue
+ 
+-ifndef RISCV
++ifeq ($(UNAME_M),$(filter $(UNAME_M),riscv64))
++	MK_CFLAGS   += -march=rv64gcv_zba_zbb_zbc_zbs -mabi=lp64d
++	MK_CXXFLAGS += -march=rv64gcv_zba_zbb_zbc_zbs -mabi=lp64d
++endif
+ 
+ ifeq ($(UNAME_M),$(filter $(UNAME_M),x86_64 i686 amd64))
+ 	# Use all CPU extensions that are available:
+@@ -512,11 +515,6 @@ ifneq ($(filter loongarch64%,$(UNAME_M)),)
+ 	MK_CXXFLAGS += -mlasx
+ endif
+ 
+-else
+-	MK_CFLAGS   += -march=rv64gcv -mabi=lp64d
+-	MK_CXXFLAGS += -march=rv64gcv -mabi=lp64d
+-endif
+-
+ ifndef GGML_NO_ACCELERATE
+ 	# Mac OS - include Accelerate framework.
+ 	# `-framework Accelerate` works both with Apple Silicon and Mac Intel
